@@ -17,12 +17,6 @@ def main():
     maps_dir = "maps"
     map_files = [f for f in os.listdir(maps_dir) if f.endswith('_map.bmp')]
     f = np.zeros(len(map_files))
-    print(map_files)
-    print(f)
-
-    # Create a folder to store output graphs (if it doesn't exist)
-    if not os.path.exists("graphs"):
-        os.makedirs("graphs")
 
     for k, map_file_name in enumerate(map_files):
         full_map_file_name = os.path.join(maps_dir, map_file_name)
@@ -30,6 +24,7 @@ def main():
 
         curr_map = io.imread(full_map_file_name)
 
+        plt.figure(k)
         plt.imshow(np.flip(curr_map, axis=0), cmap="gray")
         plt.xlim([0, 1080])
         plt.ylim([0, 720])
@@ -100,7 +95,7 @@ def main():
             point_2 = E[i][1]
             plt.plot([V[point_1][0], V[point_2][0]], [V[point_1][1], V[point_2][1]], 'r-', linewidth=1)
         
-        plt.show()
+    plt.show()
 
 
 if __name__ == "__main__":
