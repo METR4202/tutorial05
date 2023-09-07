@@ -39,11 +39,9 @@ def main():
         # Sample
         for i in range(n):
             while True:
-                # V_rand = np.asarray([np.random.rand(2) * [X, Y]]).astype(np.int32)
                 V_rand_x = np.random.randint(0,X)
                 V_rand_y = np.random.randint(0,Y)
                 V_rand = np.array([[V_rand_x, V_rand_y]])
-                # print(V_rand)
 
                 # Keep if sample is in free space
                 if not in_collision(V_rand, occ_map):
@@ -70,15 +68,12 @@ def main():
 
         # Check for neighbors within the connection radius
         for i in range(n):
-            # dist = np.linalg.norm(V - V[i, :], axis=1)
-            dist = np.sqrt(np.sum(np.power(V-V[i,:], 2), axis=1))
-            # print(dist)
+            dist = np.linalg.norm(V - V[i, :], axis=1)
             nn_idx = np.argwhere(dist < r)
             nn_idx = nn_idx[nn_idx > i]  # Remove self-connections
 
             # Check for collisions along potential edges
             disc = int(np.ceil(r))  # Number of discrete checks along the edge
-            # print(disc)
             for j in nn_idx:
                 x_check = np.linspace(V[i, 0], V[j, 0], disc)
                 y_check = np.linspace(V[i, 1], V[j, 1], disc)
