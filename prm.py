@@ -33,7 +33,7 @@ def main():
         X, Y = occ_map.shape
 
         # Number of samples
-        n = 100
+        n = 500
         V = np.zeros((n, 2))
 
         # Sample

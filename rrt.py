@@ -14,6 +14,26 @@ def in_collision(x_test, occ_map):
 
 # Add your rrt helper functions here like holonomic steering dynamics etc.
 
+def f_steer(x0, x1, v, t, varargin):
+    x_new = np.zeros(3)
+
+    max_travel_dist = v*t 
+    d = np.sqrt(np.sum((x1 - x0[0:1])**2, 2)) 
+    dtheta = 0  #not considering turning for holonomic vehicle
+
+    travel_dist = min(d, max_travel_dist) # only steer as far as the straight line distance between the points
+    x_new[0:1] = (travel_dist / d)*(x1 - x0[0:1]) + x0[1:2] 
+    x_new[2] = np.atan2(x_new[2]-x0[2],x_new[1]-x0[1]) 
+
+    disc = v*t # set number of discrete checks along edge to the travel distance for each steering command
+    x_check = np.linspace(x0[1],x_new[1],disc) 
+    y_check = np.linspace(x0[2],x_new[2],disc) 
+    steer_path = [np.traspose(x_check), np.transpose(y_check)] 
+    
+    dxy = np.sqrt(sum(([x_check(1),y_check(1)] - [x_check(2),y_check(2)])**2, 2)) 
+
+    return x_new, steer_path, dtheta, dxy
+
 def main():
     maps_dir = "maps"
     map_files = [f for f in os.listdir(maps_dir) if f.endswith('_map.bmp')]
